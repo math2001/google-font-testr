@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "Google Font Testr",
+    "version": "0.1.0",
+    "permissions": [ "http://*/*", "https://*/*" ],
+    "description": "Quickly try google fonts on your website",
+    "background": {
+        "scripts": [ "trigger.js" ]
+    },
+    "permissions": [ "activeTab" ],
+    "browser_action": {
+        "default_icon": "logo.png"
+    }
+}
