@@ -253,7 +253,7 @@ class App {
             .then(response => response.json())
             .then(json => {
                 this.all_fonts = json.items
-                this.fonts = this.filter(this.all_fonts)
+                this.fonts = this.filter(Array.from(this.all_fonts))
                 this.updateFont()
                 this.bindDOM()
                 this.lengthEl.textContent = this.fonts.length
@@ -261,7 +261,7 @@ class App {
     }
 
     filter(fonts) {
-        return fonts
+        return this.all_fonts.filter(font => this.filters[font.category].checked)
     }
 
     cacheDOM() {
@@ -272,6 +272,17 @@ class App {
         this.lengthEl = this.popup.popup.querySelector('#google-font-testr-length')
         this.cssSelectorInput = this.popup.popup.querySelector('#google-font-testr-css-selector')
         this.filtersForm = this.popup.popup.querySelector('#google-font-testr-filters')
+        this._cacheFilters()
+    }
+
+    _cacheFilters() {
+        this.filters = {
+            'monospace': this.filtersForm.querySelector('#google-font-testr-monospace'),
+            'serif': this.filtersForm.querySelector('#google-font-testr-serif'),
+            'handwriting': this.filtersForm.querySelector('#google-font-testr-handwriting'),
+            'sans-serif': this.filtersForm.querySelector('#google-font-testr-sans-serif'),
+            'display': this.filtersForm.querySelector('#google-font-testr-display')
+        }
     }
 
     _increaseIndex(e) {
@@ -308,6 +319,8 @@ class App {
         this.cssSelectorInput = removeListener(this.cssSelectorInput)
         this.filtersForm = removeListener(this.filtersForm)
 
+        this._cacheFilters()
+
         this.next.addEventListener('click', this._increaseIndex.bind(this))
         this.prev.addEventListener('click', this._decreaseIndex.bind(this))
         this.cssSelectorInput.addEventListener('input', this.updateFont.bind(this))
@@ -315,7 +328,10 @@ class App {
     }
 
     updateFilters() {
-
+        this.fonts = this.filter(this.all_fonts)
+        this.fontIndex = 0
+        this.lengthEl.textContent = this.fonts.length
+        this.updateFont()
     }
 
     updateFont() {
@@ -328,5 +344,4 @@ class App {
 }
 
 new App()
-
 })();
