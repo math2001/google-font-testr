@@ -15,7 +15,7 @@ const POPUP_STYLE = `
     color: #333;
     box-shadow: 0 0 50px #C2C2C2;
     font-family: Roboto;
-    padding: 10px;
+    padding: 30px;
     text-align: center;
 }
 
@@ -28,6 +28,14 @@ input {
     font-family: "Inconsolata", "Monaco", "consolas", monospace;
 }
 
+p {
+    position: relative;
+}
+
+.count {
+    color: #848484;
+}
+
 .filters {
     padding: 0;
     list-style: none;
@@ -36,6 +44,18 @@ input {
 .filters li {
     display: inline-block;
     margin: 0 20px;
+}
+
+button.change {
+    position: absolute;
+}
+
+button.change.left {
+    left: 10px;
+}
+
+button.change.right {
+    right: 10px;
 }
 
 input[type=checkbox] {
@@ -125,9 +145,12 @@ const POPUP_TEMPLATE = `
         <label class="checkbox tick" for="gft-display" data-label="Display"></label>
     </li>
 </ul>
-<button i="prev">&lt;</button>
-<span i="current">Loading...</span>
-<button i="next">&gt;</button>
+<p>
+    <button id="gft-prev" class="change left">&lt;</button>
+    <span id="gft-current">Loading...</span>
+    <button id="gft-next" class="change right">&gt;</button>
+</p>
+<p class="count"><span id="gft-index">0</span>/<span id="gft-length">0</span></p>
 `.replace(/gft/g, 'google-font-testr')
 
 class Popup {
@@ -169,7 +192,6 @@ class FontManager {
 
     getStylesheet() {
         return document.head.querySelector('#' + STYLE_SHEET_ID) || this.createStylesheet()
-
     }
 
     createStylesheet() {
@@ -201,7 +223,7 @@ class FontManager {
             fontFamilies = [fontFamilies]
         }
         fontFamilies = fontFamilies.join('|').replace(/ /g, '+')
-        this.fontLoaderTag.href = `//fonts.googleapis.com/css/family=${fontFamilies}`
+        this.fontLoaderTag.href = `https://fonts.googleapis.com/css?family=${fontFamilies}`
     }
 
     use(selector, ...fonts) {
@@ -210,10 +232,69 @@ class FontManager {
             !(`"'`.includes(font[0]) && `"'`.includes(font.slice(-1))) ? `"${font}"` : font).join(',')
         this.stylesheet.innerHTML = `${selector} { font-family: ${fonts} !important; }`
     }
+}
+
+class App {
+
+    constructor() {
+        this.fontManager = new FontManager()
+        this.popup = new Popup()
+        this.fontIndex = 0
+        this.cacheDOM()
+        fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyB-dfCPNmFMEnuaXLKN-zIr-5xwgdEvzGI')
+            .then(response => response.json())
+            .then(json => {
+                this.all_fonts = json.items
+                this.fonts = this.filter(this.all_fonts)
+                this.updateFont()
+                this.bindDOM()
+                this.lengthEl.textContent = this.fonts.length
+            })
+    }
+
+    filter(fonts) {
+        return fonts
+    }
+
+    cacheDOM() {
+        this.current = this.popup.popup.querySelector('#google-font-testr-current')
+        this.next = this.popup.popup.querySelector('#google-font-testr-next')
+        this.prev = this.popup.popup.querySelector('#google-font-testr-prev')
+        this.indexEl = this.popup.popup.querySelector('#google-font-testr-index')
+        this.lengthEl = this.popup.popup.querySelector('#google-font-testr-length')
+        this.cssSelectorInput = this.popup.popup.querySelector('#google-font-testr-css-selector')
+    }
+
+    bindDOM() {
+        this.next.addEventListener('click', _ => {
+            this.fontIndex ++
+            if (this.fontIndex >= this.fonts.length) {
+                this.fontIndex = 0
+            }
+            this.updateFont()
+        })
+        this.prev.addEventListener('click', _ => {
+            this.fontIndex --
+            if (this.fontIndex < 0) {
+                this.fontIndex = this.fonts.length - 1
+            }
+            this.updateFont()
+        })
+
+        this.cssSelectorInput.addEventListener('input', _ => {
+            this.updateFont()
+        })
+    }
+
+    updateFont() {
+        const fontFamily = this.fonts[this.fontIndex].family
+        this.fontManager.use(this.cssSelectorInput.value, fontFamily)
+        this.current.textContent = fontFamily
+        this.indexEl.textContent = this.fontIndex + 1
+    }
 
 }
 
-const popup = new Popup()
-const fontManager = new FontManager()
+new App()
 
 })();
