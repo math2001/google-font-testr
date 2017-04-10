@@ -9,8 +9,8 @@ const STYLE_SHEET_ID = 'google-font-testr-style-sheet'
 const POPUP_STYLE = `
 #${POPUP_ID} {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     background-color: white;
     color: #333;
     box-shadow: 0 0 50px #C2C2C2;
@@ -123,28 +123,30 @@ input[type=checkbox]:checked + .checkbox.tick {
 
 const POPUP_TEMPLATE = `
 <label for="gft-css-selector">CSS selector</label> <input id="gft-css-selector" value="body">
-<ul class="filters">
-    <li>
-        <input type="checkbox" id="gft-monospace" checked>
-        <label class="checkbox tick" for="gft-monospace" data-label="Monospace"></label>
-    </li>
-    <li>
-        <input type="checkbox" id="gft-serif" checked>
-        <label class="checkbox tick" for="gft-serif" data-label="Serif"></label>
-    </li>
-    <li>
-        <input type="checkbox" id="gft-sans-serif" checked>
-        <label class="checkbox tick" for="gft-sans-serif" data-label="Sans Serif"></label>
-    </li>
-    <li>
-        <input type="checkbox" id="gft-handwriting" checked>
-        <label class="checkbox tick" for="gft-handwriting" data-label="Hand writing"></label>
-    </li>
-    <li>
-        <input type="checkbox" id="gft-display" checked>
-        <label class="checkbox tick" for="gft-display" data-label="Display"></label>
-    </li>
-</ul>
+<form id="gft-filters">
+    <ul class="filters">
+        <li>
+            <input type="checkbox" id="gft-monospace" checked>
+            <label class="checkbox tick" for="gft-monospace" data-label="Monospace"></label>
+        </li>
+        <li>
+            <input type="checkbox" id="gft-serif" checked>
+            <label class="checkbox tick" for="gft-serif" data-label="Serif"></label>
+        </li>
+        <li>
+            <input type="checkbox" id="gft-sans-serif" checked>
+            <label class="checkbox tick" for="gft-sans-serif" data-label="Sans Serif"></label>
+        </li>
+        <li>
+            <input type="checkbox" id="gft-handwriting" checked>
+            <label class="checkbox tick" for="gft-handwriting" data-label="Hand writing"></label>
+        </li>
+        <li>
+            <input type="checkbox" id="gft-display" checked>
+            <label class="checkbox tick" for="gft-display" data-label="Display"></label>
+        </li>
+    </ul>
+</form>
 <p>
     <button id="gft-prev" class="change left">&lt;</button>
     <span id="gft-current">Loading...</span>
@@ -152,6 +154,12 @@ const POPUP_TEMPLATE = `
 </p>
 <p class="count"><span id="gft-index">0</span>/<span id="gft-length">0</span></p>
 `.replace(/gft/g, 'google-font-testr')
+
+function removeListener(el) {
+    let newEl = el.cloneNode(true)
+    el.parentNode.replaceChild(newEl, el)
+    return newEl
+}
 
 class Popup {
 
@@ -263,39 +271,51 @@ class App {
         this.indexEl = this.popup.popup.querySelector('#google-font-testr-index')
         this.lengthEl = this.popup.popup.querySelector('#google-font-testr-length')
         this.cssSelectorInput = this.popup.popup.querySelector('#google-font-testr-css-selector')
+        this.filtersForm = this.popup.popup.querySelector('#google-font-testr-filters')
+    }
+
+    _increaseIndex(e) {
+        if (e.ctrlKey === true) {
+            this.fontIndex += 10
+        } else if (e.shiftKey === true) {
+            this.fontIndex += 100
+        } else {
+            this.fontIndex += 1
+        }
+        if (this.fontIndex >= this.fonts.length) {
+            this.fontIndex = 0
+        }
+        this.updateFont()
+    }
+
+    _decreaseIndex(e) {
+        if (e.ctrlKey === true) {
+            this.fontIndex -= 10
+        } else if (e.shiftKey === true) {
+            this.fontIndex -= 100
+        } else {
+            this.fontIndex -= 1
+        }
+        if (this.fontIndex < 0) {
+            this.fontIndex = this.fonts.length - 1
+        }
+        this.updateFont()
     }
 
     bindDOM() {
-        this.next.addEventListener('click', e => {
-            if (e.ctrlKey === true) {
-                this.fontIndex += 10
-            } else if (e.shiftKey === true) {
-                this.fontIndex += 100
-            } else {
-                this.fontIndex += 1
-            }
-            if (this.fontIndex >= this.fonts.length) {
-                this.fontIndex = 0
-            }
-            this.updateFont()
-        })
-        this.prev.addEventListener('click', e => {
-            if (e.ctrlKey === true) {
-                this.fontIndex -= 10
-            } else if (e.shiftKey === true) {
-                this.fontIndex -= 100
-            } else {
-                this.fontIndex -= 1
-            }
-            if (this.fontIndex < 0) {
-                this.fontIndex = this.fonts.length - 1
-            }
-            this.updateFont()
-        })
+        this.next = removeListener(this.next)
+        this.prev = removeListener(this.prev)
+        this.cssSelectorInput = removeListener(this.cssSelectorInput)
+        this.filtersForm = removeListener(this.filtersForm)
 
-        this.cssSelectorInput.addEventListener('input', _ => {
-            this.updateFont()
-        })
+        this.next.addEventListener('click', this._increaseIndex.bind(this))
+        this.prev.addEventListener('click', this._decreaseIndex.bind(this))
+        this.cssSelectorInput.addEventListener('input', this.updateFont.bind(this))
+        this.filtersForm.addEventListener('change', this.updateFilters.bind(this))
+    }
+
+    updateFilters() {
+
     }
 
     updateFont() {
