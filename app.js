@@ -266,15 +266,27 @@ class App {
     }
 
     bindDOM() {
-        this.next.addEventListener('click', _ => {
-            this.fontIndex ++
+        this.next.addEventListener('click', e => {
+            if (e.ctrlKey === true) {
+                this.fontIndex += 10
+            } else if (e.shiftKey === true) {
+                this.fontIndex += 100
+            } else {
+                this.fontIndex += 1
+            }
             if (this.fontIndex >= this.fonts.length) {
                 this.fontIndex = 0
             }
             this.updateFont()
         })
-        this.prev.addEventListener('click', _ => {
-            this.fontIndex --
+        this.prev.addEventListener('click', e => {
+            if (e.ctrlKey === true) {
+                this.fontIndex -= 10
+            } else if (e.shiftKey === true) {
+                this.fontIndex -= 100
+            } else {
+                this.fontIndex -= 1
+            }
             if (this.fontIndex < 0) {
                 this.fontIndex = this.fonts.length - 1
             }
