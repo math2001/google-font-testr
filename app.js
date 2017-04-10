@@ -11,11 +11,18 @@ const POPUP_STYLE = `
     position: fixed;
     top: 0;
     right: 0;
-    width: 500px;
-    height: 500px;
     background-color: white;
     color: #333;
     box-shadow: 0 0 30px #888;
+    font-family: Roboto;
+}
+
+#${POPUP_ID} input {
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 100%;
+    border-bottom: 2px solid #aaa;
 }
 `
 // i → id but for the popup
@@ -31,28 +38,34 @@ const POPUP_TEMPLATE = `
 <button i="next">&gt;</button>
 `
 
-const createPopup = _ => {
+class Popup {
 
-    const popup = document.createElement('div')
-    popup.id = POPUP_ID
-    popup.innerHTML = `<div id="${POPUP_ID}">${POPUP_TEMPLATE}</div>`
-    return document.body.appendChild(popup)
-}
-
-const createStyle = _ => {
-    const style = document.createElement('style')
-    style.type = 'text/css'
-    style.innerHTML = POPUP_STYLE
-    document.head.appendChild(style)
-}
-
-const getPopup = _ => {
-    const popup = document.getElementById(POPUP_ID)
-    if (popup === null) {
-        createStyle()
-        return createPopup()
+    constructor() {
+        this.popup = this.getPopup()
     }
-    return popup
+
+    createPopup() {
+        const popup = document.createElement('div')
+        popup.id = POPUP_ID
+        popup.innerHTML = `<div id="${POPUP_ID}">${POPUP_TEMPLATE}</div>`
+        return document.body.appendChild(popup)
+    }
+
+    createStyle() {
+        const style = document.createElement('style')
+        style.type = 'text/css'
+        style.innerHTML = POPUP_STYLE
+        document.head.appendChild(style)
+    }
+
+    getPopup() {
+        const popup = document.getElementById(POPUP_ID)
+        if (popup === null) {
+            this.createStyle()
+            return this.createPopup()
+        }
+        return popup
+    }
 }
 
 class FontManager {
@@ -100,7 +113,7 @@ class FontManager {
     }
 
     use(selector, ...fonts) {
-        this._load(fonts[0])
+        this._load(...fonts)
         fonts = fonts.map(font =>
             !(`"'`.includes(font[0]) && `"'`.includes(font.slice(-1))) ? `"${font}"` : font).join(',')
         this.stylesheet.innerHTML = `${selector} { font-family: ${fonts} !important; }`
@@ -108,9 +121,7 @@ class FontManager {
 
 }
 
-console.clear()
-
-const popup = getPopup()
+const popup = new Popup()
 const fontManager = new FontManager()
 
 fontManager.use('body, p', 'BioRhytm', 'consolas')
