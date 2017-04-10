@@ -13,30 +13,122 @@ const POPUP_STYLE = `
     right: 0;
     background-color: white;
     color: #333;
-    box-shadow: 0 0 30px #888;
+    box-shadow: 0 0 50px #C2C2C2;
     font-family: Roboto;
+    padding: 10px;
+    text-align: center;
 }
 
-#${POPUP_ID} input {
+input {
     border: none;
     background: none;
     font-family: inherit;
     font-size: 100%;
     border-bottom: 2px solid #aaa;
+    font-family: "Inconsolata", "Monaco", "consolas", monospace;
 }
-`
-// i → id but for the popup
+
+.filters {
+    padding: 0;
+    list-style: none;
+}
+
+.filters li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+input[type=checkbox] {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    opacity: 0;
+    transform: scale(0);
+}
+
+.checkbox.tick {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    border-radius: 3px;
+    vertical-align: middle;
+    position: relative;
+    border: 2px solid #888;
+    transition: all .3s;
+}
+
+.checkbox.tick::before {
+    content: attr(data-label);
+    display: inline-block;
+    font-family: Inconsolata, Monaco, consolas, monospace;
+    font-size: 70%;
+    white-space: nowrap;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%) scale(.8);
+    opacity: 0;
+    color: #555;
+    transition: all .3s;
+}
+
+.checkbox.tick:hover::before {
+    transform: translate(-50%, -120%) scale(1);
+    opacity: 1;
+}
+
+.checkbox.tick::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 5px;
+    height: 2px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    transform: rotate(-45deg);
+    opacity: 0;
+}
+
+input[type=checkbox]:checked + .checkbox.tick::after {
+    opacity: 1;
+}
+
+input[type=checkbox]:checked + .checkbox.tick {
+    background-color: #FD5C4C;
+    border-color: #FD5C4C;
+}
+`.replace(/}\n\n/g, `\}\n\n#${POPUP_ID} `)
+
 const POPUP_TEMPLATE = `
-<input i="css-selector" value="body">
+<label for="gft-css-selector">CSS selector</label> <input id="gft-css-selector" value="body">
 <ul class="filters">
-    <li><input type="radio" i="monospace"></li>
-    <li><input type="radio" i="serif"></li>
-    <li><input type="radio" i="sans-serif"></li>
+    <li>
+        <input type="checkbox" id="gft-monospace" checked>
+        <label class="checkbox tick" for="gft-monospace" data-label="Monospace"></label>
+    </li>
+    <li>
+        <input type="checkbox" id="gft-serif" checked>
+        <label class="checkbox tick" for="gft-serif" data-label="Serif"></label>
+    </li>
+    <li>
+        <input type="checkbox" id="gft-sans-serif" checked>
+        <label class="checkbox tick" for="gft-sans-serif" data-label="Sans Serif"></label>
+    </li>
+    <li>
+        <input type="checkbox" id="gft-handwriting" checked>
+        <label class="checkbox tick" for="gft-handwriting" data-label="Hand writing"></label>
+    </li>
+    <li>
+        <input type="checkbox" id="gft-display" checked>
+        <label class="checkbox tick" for="gft-display" data-label="Display"></label>
+    </li>
 </ul>
 <button i="prev">&lt;</button>
 <span i="current">Loading...</span>
 <button i="next">&gt;</button>
-`
+`.replace(/gft/g, 'google-font-testr')
 
 class Popup {
 
@@ -123,7 +215,5 @@ class FontManager {
 
 const popup = new Popup()
 const fontManager = new FontManager()
-
-fontManager.use('body, p', 'BioRhytm', 'consolas')
 
 })();
