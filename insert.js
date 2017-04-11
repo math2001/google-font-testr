@@ -37,7 +37,7 @@ class FontManager {
     }
 
     reset() {
-        chrome.tabs.sendMessage(null, 'reset')
+        chrome.tabs.sendMessage(this.tabId, 'reset')
     }
 
 }
@@ -70,6 +70,8 @@ class App {
         this.cssSelector = document.querySelector('#css-selector')
 
         this.filtersForm = document.querySelector('#filters')
+
+        this.resetButton = document.querySelector('#reset')
 
         this.filters = {
             'monospace': this.filtersForm.querySelector('#monospace'),
@@ -116,6 +118,10 @@ class App {
 
         this.cssSelector.addEventListener('input', _ => {
             this.updateFont()
+        })
+
+        this.resetButton.addEventListener('click', _ => {
+            this.fontManager.reset()
         })
     }
 

@@ -51,6 +51,11 @@ button:hover {
     background-color: #ccc;
 }
 
+button.big {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
 button.change {
     position: absolute;
     font-weight: bold;
