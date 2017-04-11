@@ -1,11 +1,9 @@
 "use strict";
 
-
-
-if (window.app === undefined) {
-// start create App instance
+const DEV = true
 
 chrome.tabs.executeScript(null, {code: 'window.FontManager'}, function (results) {
+    // insert only once the listener.js
     if (results[0] === null) {
         chrome.tabs.executeScript({
             file: 'listener.js'
@@ -14,6 +12,11 @@ chrome.tabs.executeScript(null, {code: 'window.FontManager'}, function (results)
 })
 
 function loadFonts() {
+    if (DEV) {
+        // just save the response of the URL *below* to a file called webfonts.json
+        // at the root of this extension, and set DEV to true
+        return fetch('webfonts.json').then(response => response.json())
+    }
     return fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyB-dfCPNmFMEnuaXLKN-zIr-5xwgdEvzGI')
             .then(response => response.json())
 }
@@ -148,5 +151,4 @@ class App {
 
 }
 
-window.app = new App()
-} // end creating App instance
+new App()
