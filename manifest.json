@@ -4,13 +4,9 @@
     "version": "0.1.0",
     "permissions": [ "http://*/*", "https://*/*" ],
     "description": "Quickly try google fonts on your website",
-    "background": {
-        // "scripts": [ "trigger.js" ]
-    },
-    "permissions": [ "activeTab", "webNavigation" ],
+    "permissions": [ "activeTab" ],
     "browser_action": {
         "default_icon": "logo.png",
         "default_popup": "popup.html"
     }
-    // "web_accessible_resources": [ "popup.html", "popup.css" ]
 }
