@@ -139,3 +139,37 @@ input[type=checkbox]:checked + .checkbox.tick {
     background-color: #FD5C4C;
     border-color: #FD5C4C;
 }
+
+.input-text {
+    position: relative;
+    display: inline-block;
+    margin: 5px 10px;
+}
+
+.input-text input[type="text"],
+.input-text input[type="password"],
+.input-text input[type="email"] {
+    border: none;
+    border-bottom: 2px #ccc solid;
+    width: 100%;
+    background-color: transparent;
+    font-size: 100%;
+    font-family: inherit;
+}
+
+.input-text .placeholder {
+    position: absolute;
+    color: #333;
+    left: 0;
+    top: 2px;
+    color: #777;
+    font-size: 90%;
+    z-index: -5;
+    transition: all .3s;
+}
+
+.input-text input:focus + .placeholder,
+.input-text input:valid + .placeholder {
+    font-size: 60%;
+    top: -12px;
+}
