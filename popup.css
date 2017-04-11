@@ -60,14 +60,15 @@ input[type=checkbox] {
 
 label {
     cursor: pointer;
+    user-select: none;
 }
 
  .checkbox.tick {
     cursor: pointer;
     margin: 3px 5px;
     display: inline-block;
-    width: 19px;
-    height: 19px;
+    width: 15px;
+    height: 15px;
     border-radius: 3px;
     vertical-align: middle;
     position: relative;
