@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+
+    <label for="css-selector"></label> <input id="css-selector" value="body">
+    <form id="filters">
+        <ul class="filters">
+            <li>
+                <input type="checkbox" id="monospace" checked>
+                <label class="checkbox tick" for="monospace"></label>
+                <label for="monospace">Monospace</label>
+            </li>
+            <li>
+                <input type="checkbox" id="serif" checked>
+                <label class="checkbox tick" for="serif"></label>
+                <label for="serif">Serif</label>
+            </li>
+            <li>
+                <input type="checkbox" id="sans-serif" checked>
+                <label class="checkbox tick" for="sans-serif"></label>
+                <label for="sans-serif">Sans Serif</label>
+            </li>
+            <li>
+                <input type="checkbox" id="handwriting" checked>
+                <label class="checkbox tick" for="handwriting"></label>
+                <label for="handwriting">Hand writing</label>
+            </li>
+            <li>
+                <input type="checkbox" id="display" checked>
+                <label class="checkbox tick" for="display"></label>
+                <label for="display">Display</label>
+            </li>
+        </ul>
+    </form>
+    <p>
+        <button id="prev" class="change left">&lt;</button>
+        <span id="current">Loading fonts...</span>
+        <button id="next" class="change right">&gt;</button>
+    </p>
+    <p class="count"><span id="index">0</span>/<span id="length">0</span></p>
+    <script type="text/javascript" src="insert.js"></script>
+</body>
+</html>

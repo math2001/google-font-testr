@@ -1,24 +1,21 @@
-#google-font-testr-popup {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: white;
-    color: #333;
-    box-shadow: 0 0 50px #C2C2C2;
-    font-family: Roboto;
-    padding: 30px;
-    transform: scale(0);
-    transition: all .5s;
-    transform-origin: 100% 0;
-    opacity: 0;
+* {
+    outline: none;
 }
 
-#google-font-testr-popup.active {
+body {
+    background-color: white;
+    color: #333;
+    font-family: Roboto;
+    padding: 30px;
+    font-size: 100%;
+}
+
+.active {
     transform: scale(1);
     opacity: 1;
 }
 
-#google-font-testr-popup input {
+input {
     border: none;
     background: none;
     font-family: inherit;
@@ -27,33 +24,33 @@
     font-family: "Inconsolata", "Monaco", "consolas", monospace;
 }
 
-#google-font-testr-popup p {
+p {
     position: relative;
     text-align: center;
 }
 
-#google-font-testr-popup .count {
+ .count {
     color: #848484;
 }
 
-#google-font-testr-popup .filters {
+ .filters {
     padding: 0;
     list-style: none;
 }
 
-#google-font-testr-popup button.change {
+button.change {
     position: absolute;
 }
 
-#google-font-testr-popup button.change.left {
+button.change.left {
     left: 10px;
 }
 
-#google-font-testr-popup button.change.right {
+button.change.right {
     right: 10px;
 }
 
-#google-font-testr-popup input[type=checkbox] {
+input[type=checkbox] {
     position: absolute;
     top: -100%;
     left: -100%;
@@ -61,11 +58,11 @@
     transform: scale(0);
 }
 
-#google-font-testr-popup label {
+label {
     cursor: pointer;
 }
 
-#google-font-testr-popup .checkbox.tick {
+ .checkbox.tick {
     cursor: pointer;
     margin: 3px 5px;
     display: inline-block;
@@ -78,7 +75,7 @@
     transition: all .3s;
 }
 
-#google-font-testr-popup .checkbox.tick::before {
+ .checkbox.tick::before {
     content: attr(data-label);
     display: inline-block;
     font-family: Inconsolata, Monaco, consolas, monospace;
@@ -92,12 +89,12 @@
     transition: all .3s;
 }
 
-#google-font-testr-popup .checkbox.tick:hover::before {
+ .checkbox.tick:hover::before {
     transform: translate(-50%, -120%) scale(1);
     opacity: 1;
 }
 
-#google-font-testr-popup .checkbox.tick::after {
+ .checkbox.tick::after {
     content: "";
     display: block;
     position: absolute;
@@ -112,11 +109,11 @@
     opacity: 0;
 }
 
-#google-font-testr-popup input[type=checkbox]:checked + .checkbox.tick::after {
+input[type=checkbox]:checked + .checkbox.tick::after {
     opacity: 1;
 }
 
-#google-font-testr-popup input[type=checkbox]:checked + .checkbox.tick {
+input[type=checkbox]:checked + .checkbox.tick {
     background-color: #FD5C4C;
     border-color: #FD5C4C;
 }
