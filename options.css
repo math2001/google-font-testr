@@ -34,7 +34,7 @@ h1 small {
 
 .hr::before,
 .hr::after {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #ddd;
     content: "";
     display: inline-block;
     margin-bottom: .4rem;
@@ -87,4 +87,13 @@ hr {
     width: 50%;
     border: none;
     border-bottom: 1px solid #ddd;
+}
+
+img.float {
+    float: left;
+    max-width: 1.3em;
+}
+
+.clearfix {
+    clear: both;
 }
