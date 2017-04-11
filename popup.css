@@ -29,25 +29,41 @@ p {
     text-align: center;
 }
 
- .count {
+.count {
     color: #848484;
 }
 
- .filters {
+.filters {
     padding: 0;
     list-style: none;
 }
 
+button {
+    border: none;
+    border-radius: 3px;
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+    background-color: #bbb;
+}
+
+button:hover {
+    background-color: #ccc;
+}
+
 button.change {
     position: absolute;
+    font-weight: bold;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 button.change.left {
-    left: 10px;
+    left: 0;
 }
 
 button.change.right {
-    right: 10px;
+    right: 0;
 }
 
 input[type=checkbox] {
