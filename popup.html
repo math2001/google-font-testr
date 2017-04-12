@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="popup.css">
 
     <div class="input-text">
-        <input id="css-selector" value="body" required>
+        <input id="css-selector" value="body" required class="monospace">
         <span class="placeholder">CSS Selector</span>
     </div>
     <form id="filters">
@@ -39,15 +39,19 @@
             </li>
         </ul>
     </form>
-    <p class="text-cetner">
+    <p class="text-center">
         <button class="big" id="reset">Reset</button>
     </p>
     <p>
         <button id="prev" class="change left">&lt;</button>
-        <span id="current">Loading fonts...</span>
+        <span class="input-text">
+            <input type="text" id="current" value="Loading fonts..." disabled required>
+            <span class="placeholder">Font name</span>
+        </span>
         <button id="next" class="change right">&gt;</button>
     </p>
     <p class="count"><span id="index">0</span>/<span id="length">0</span></p>
+    <script type="text/javascript" src="cookie.js"></script>
     <script type="text/javascript" src="popup.js"></script>
 </body>
 </html>

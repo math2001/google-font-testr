@@ -2,8 +2,8 @@
 
 const DEV = true
 
+// insert only once listener.js
 chrome.tabs.executeScript(null, {code: 'window.FontManager'}, function (results) {
-    // insert only once the listener.js
     if (results[0] === null) {
         chrome.tabs.executeScript({
             file: 'listener.js'
@@ -154,11 +154,13 @@ class App {
         // update the font index, font name, etc
         this.indexEl.textContent = this.fontIndex + 1
         if (this.fonts.length == 0) {
-            this.currentFont.textContent = 'No font found...'
+            this.currentFont.value = 'No font found...'
+            this.currentFont.disabled = true
             this.fontManager.reset()
         } else {
-            this.currentFont.textContent = this.fonts[this.fontIndex].family
+            this.currentFont.value = this.fonts[this.fontIndex].family
             this.fontManager.use(this.cssSelector.value, this.fonts[this.fontIndex].family)
+            this.currentFont.disabled = false
         }
 
 

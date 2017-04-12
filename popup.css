@@ -1,5 +1,10 @@
 * {
     outline: none;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 300px;
 }
 
 body {
@@ -21,6 +26,9 @@ input {
     font-family: inherit;
     font-size: 100%;
     border-bottom: 2px solid #aaa;
+}
+
+.monospace {
     font-family: "Inconsolata", "Monaco", "consolas", monospace;
 }
 
@@ -84,12 +92,12 @@ label {
     user-select: none;
 }
 
- .checkbox.tick {
+.checkbox.tick {
     cursor: pointer;
     margin: 3px 5px;
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    width: 19px;
+    height: 19px;
     border-radius: 3px;
     vertical-align: middle;
     position: relative;
@@ -97,7 +105,7 @@ label {
     transition: all .3s;
 }
 
- .checkbox.tick::before {
+.checkbox.tick::before {
     content: attr(data-label);
     display: inline-block;
     font-family: Inconsolata, Monaco, consolas, monospace;
@@ -111,12 +119,12 @@ label {
     transition: all .3s;
 }
 
- .checkbox.tick:hover::before {
+.checkbox.tick:hover::before {
     transform: translate(-50%, -120%) scale(1);
     opacity: 1;
 }
 
- .checkbox.tick::after {
+.checkbox.tick::after {
     content: "";
     display: block;
     position: absolute;
@@ -169,6 +177,7 @@ input[type=checkbox]:checked + .checkbox.tick {
 }
 
 .input-text input:focus + .placeholder,
+.input-text input:disabled[value] + .placeholder,
 .input-text input:valid + .placeholder {
     font-size: 60%;
     top: -12px;
