@@ -131,6 +131,16 @@ class App {
             this.fontManager.reset()
         })
 
+        this.currentFont.addEventListener('change', e => {
+            const fontIndex = this.fonts.findIndex(font => font.family === e.target.value)
+            if (fontIndex === -1) {
+                this.currentFont.classList.add('error')
+            } else {
+                this.fontIndex = fontIndex
+                this.updateFont()
+            }
+        })
+
         document.body.addEventListener('keydown', e => {
             if (document.activeElement !== document.body) {
                 return
@@ -152,6 +162,7 @@ class App {
 
     updateFont() {
         // update the font index, font name, etc
+        this.currentFont.classList.remove('error')
         this.indexEl.textContent = this.fontIndex + 1
         if (this.fonts.length == 0) {
             this.currentFont.value = 'No font found...'

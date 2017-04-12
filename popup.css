@@ -152,6 +152,7 @@ input[type=checkbox]:checked + .checkbox.tick {
     position: relative;
     display: inline-block;
     margin: 5px 10px;
+    --redish: #FD5C4C;
 }
 
 .input-text input[type="text"],
@@ -176,7 +177,11 @@ input[type=checkbox]:checked + .checkbox.tick {
     transition: all .3s;
 }
 
-.input-text input:focus + .placeholder,
+.input-text input.error {
+    border-color: var(--redish);
+    color: var(--redish);
+}
+
 .input-text input:disabled[value] + .placeholder,
 .input-text input:valid + .placeholder {
     font-size: 60%;
