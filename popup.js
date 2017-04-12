@@ -76,12 +76,14 @@ class App {
 
         this.resetButton = document.querySelector('#reset')
 
+        this.categoryIndicator = document.querySelector('#category-indicator')
+
         this.filters = {
-            'monospace': this.filtersForm.querySelector('#monospace'),
             'serif': this.filtersForm.querySelector('#serif'),
-            'handwriting': this.filtersForm.querySelector('#handwriting'),
             'sans-serif': this.filtersForm.querySelector('#sans-serif'),
-            'display': this.filtersForm.querySelector('#display')
+            'display': this.filtersForm.querySelector('#display'),
+            'handwriting': this.filtersForm.querySelector('#handwriting'),
+            'monospace': this.filtersForm.querySelector('#monospace')
         }
     }
 
@@ -165,10 +167,15 @@ class App {
         this.currentFont.classList.remove('error')
         this.indexEl.textContent = this.fontIndex + 1
         if (this.fonts.length == 0) {
+            this.categoryIndicator.classList.add('disabled')
             this.currentFont.value = 'No font found...'
             this.currentFont.disabled = true
             this.fontManager.reset()
         } else {
+            const index = ['serif', 'sans-serif', 'display', 'handwriting', 'monospace']
+                            .findIndex(type => type === this.fonts[this.fontIndex].category)
+                this.categoryIndicator.classList.remove('disabled')
+            this.categoryIndicator.style.marginTop = (index * 25) + 'px'
             this.currentFont.value = this.fonts[this.fontIndex].family
             this.fontManager.use(this.cssSelector.value, this.fonts[this.fontIndex].family)
             this.currentFont.disabled = false

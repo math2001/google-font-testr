@@ -13,6 +13,7 @@ body {
     font-family: Roboto;
     padding: 30px;
     font-size: 100%;
+    --redish: #FD5C4C;
 }
 
 .active {
@@ -42,8 +43,28 @@ p {
 }
 
 .filters {
+    position: relative;
     padding: 0;
     list-style: none;
+}
+
+.category-indicator {
+    position: absolute;
+    left: -1em;
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 3px solid var(--redish);
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    transform: rotate(45deg);
+    top: 7px;
+    transition: all .5s;
+}
+
+.category-indicator.disabled {
+    border-color: #ccc;
+    margin-top: 0;
 }
 
 button {
@@ -144,15 +165,14 @@ input[type=checkbox]:checked + .checkbox.tick::after {
 }
 
 input[type=checkbox]:checked + .checkbox.tick {
-    background-color: #FD5C4C;
-    border-color: #FD5C4C;
+    background-color: var(--redish);
+    border-color: var(--redish);
 }
 
 .input-text {
     position: relative;
     display: inline-block;
     margin: 5px 10px;
-    --redish: #FD5C4C;
 }
 
 .input-text input[type="text"],

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title></title>
 </head>
 <body>
@@ -12,11 +13,7 @@
     </div>
     <form id="filters">
         <ul class="filters">
-            <li>
-                <input type="checkbox" id="monospace" checked>
-                <label class="checkbox tick" for="monospace"></label>
-                <label for="monospace">Monospace</label>
-            </li>
+            <span id="category-indicator" class="category-indicator"></span>
             <li>
                 <input type="checkbox" id="serif" checked>
                 <label class="checkbox tick" for="serif"></label>
@@ -28,14 +25,19 @@
                 <label for="sans-serif">Sans Serif</label>
             </li>
             <li>
+                <input type="checkbox" id="display" checked>
+                <label class="checkbox tick" for="display"></label>
+                <label for="display">Display</label>
+            </li>
+            <li>
                 <input type="checkbox" id="handwriting" checked>
                 <label class="checkbox tick" for="handwriting"></label>
                 <label for="handwriting">Hand writing</label>
             </li>
             <li>
-                <input type="checkbox" id="display" checked>
-                <label class="checkbox tick" for="display"></label>
-                <label for="display">Display</label>
+                <input type="checkbox" id="monospace" checked>
+                <label class="checkbox tick" for="monospace"></label>
+                <label for="monospace">Monospace</label>
             </li>
         </ul>
     </form>
