@@ -85,9 +85,8 @@ class App {
         }
     }
 
-    bindDOM() {
-        this.next.addEventListener('click', e => {
-            if (e.ctrlKey === true) {
+    nextFont(e) {
+        if (e.ctrlKey === true) {
                 this.fontIndex += 10
             } else if (e.shiftKey === true) {
                 this.fontIndex += 100
@@ -98,21 +97,26 @@ class App {
                 this.fontIndex = 0
             }
             this.updateFont()
-        })
+    }
 
-        this.prev.addEventListener('click', e => {
-            if (e.ctrlKey === true) {
-                this.fontIndex -= 10
-            } else if (e.shiftKey === true) {
-                this.fontIndex -= 100
-            } else {
-                this.fontIndex -= 1
-            }
-            if (this.fontIndex < 0) {
-                this.fontIndex = this.fonts.length - 1
-            }
-            this.updateFont()
-        })
+    prevFont(e) {
+        if (e.ctrlKey === true) {
+            this.fontIndex -= 10
+        } else if (e.shiftKey === true) {
+            this.fontIndex -= 100
+        } else {
+            this.fontIndex -= 1
+        }
+        if (this.fontIndex < 0) {
+            this.fontIndex = this.fonts.length - 1
+        }
+        this.updateFont()
+    }
+
+    bindDOM() {
+        this.next.addEventListener('click', this.nextFont.bind(this))
+
+        this.prev.addEventListener('click', e => this.prevFont.bind(this))
 
         this.filtersForm.addEventListener('change', _ => {
             this.fonts = this.filter(this.all_fonts)
@@ -125,6 +129,17 @@ class App {
 
         this.resetButton.addEventListener('click', _ => {
             this.fontManager.reset()
+        })
+
+        document.body.addEventListener('keydown', e => {
+            if (document.activeElement !== document.body) {
+                return
+            }
+            if (e.keyCode == 39) {
+                this.nextFont(e)
+            } else if (e.keyCode == 37) {
+                this.prevFont(e)
+            }
         })
     }
 
