@@ -78,13 +78,14 @@ class App {
 
         this.categoryIndicator = document.querySelector('#category-indicator')
 
-        this.filters = {
-            'serif': this.filtersForm.querySelector('#serif'),
-            'sans-serif': this.filtersForm.querySelector('#sans-serif'),
-            'display': this.filtersForm.querySelector('#display'),
-            'handwriting': this.filtersForm.querySelector('#handwriting'),
-            'monospace': this.filtersForm.querySelector('#monospace')
-        }
+        this.filters = new Map()
+        this.filters.set('serif', this.filtersForm.querySelector('#serif'))
+        this.filters.set('sans-serif', this.filtersForm.querySelector('#sans-serif'))
+        this.filters.set('display', this.filtersForm.querySelector('#display'))
+        this.filters.set('handwriting', this.filtersForm.querySelector('#handwriting'))
+        this.filters.set('monospace', this.filtersForm.querySelector('#monospace'))
+
+        this.filtersKeys = Array.from(this.filters.keys()) // to not call this every updateFont()
     }
 
     nextFont(e) {
@@ -156,7 +157,7 @@ class App {
     }
 
     filter(fonts) {
-        fonts = this.all_fonts.filter(font => this.filters[font.category].checked)
+        fonts = this.all_fonts.filter(font => this.filters.get(font.category).checked)
         this.lengthEl.textContent = fonts.length
         this.fontIndex = 0
         return fonts
@@ -172,10 +173,9 @@ class App {
             this.currentFont.disabled = true
             this.fontManager.reset()
         } else {
-            const index = ['serif', 'sans-serif', 'display', 'handwriting', 'monospace']
-                            .findIndex(type => type === this.fonts[this.fontIndex].category)
-                this.categoryIndicator.classList.remove('disabled')
-            this.categoryIndicator.style.marginTop = (index * 25) + 'px'
+            this.categoryIndicator.classList.remove('disabled')
+            this.categoryIndicator.style.marginTop = (this.filtersKeys.findIndex(type =>
+                type === this.fonts[this.fontIndex].category) * 25) + 'px'
             this.currentFont.value = this.fonts[this.fontIndex].family
             this.fontManager.use(this.cssSelector.value, this.fonts[this.fontIndex].family)
             this.currentFont.disabled = false
