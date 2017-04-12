@@ -63,8 +63,10 @@ p {
 }
 
 .category-indicator.disabled {
-    border-color: #ccc;
-    margin-top: 0;
+    opacity: 0;
+    margin-left: -1em;
+    border-right-color: #ccc;
+    border-top-color: #ccc;
 }
 
 button {
