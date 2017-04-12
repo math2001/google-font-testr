@@ -60,6 +60,8 @@ class App {
         })
 
         this.fontManager = new FontManager()
+
+        this.shiftKeyPressed = false
     }
 
     cacheDOM() {
@@ -86,6 +88,7 @@ class App {
         this.filters.set('monospace', this.filtersForm.querySelector('#monospace'))
 
         this.filtersKeys = Array.from(this.filters.keys()) // to not call this every updateFont()
+        this.filtersValues = Array.from(this.filters.values())
     }
 
     nextFont(e) {
@@ -121,7 +124,15 @@ class App {
 
         this.prev.addEventListener('click', e => this.prevFont.bind(this))
 
-        this.filtersForm.addEventListener('change', _ => {
+        this.filtersForm.addEventListener('change', e => {
+
+            if (this.shiftKeyPressed
+                && this.filtersValues.findIndex(el => el === e.srcElement) !== -1) {
+                this.filtersValues.some((el) => {
+                    el.checked = el === e.srcElement
+                })
+            }
+
             this.fonts = this.filter(this.all_fonts)
             this.updateFont()
         })
@@ -145,13 +156,25 @@ class App {
         })
 
         document.body.addEventListener('keydown', e => {
+
+            if (e.keyCode === 16 && this.shiftKeyPressed === false) {
+                this.shiftKeyPressed = true
+            }
+
             if (document.activeElement !== document.body) {
                 return
             }
-            if (e.keyCode == 39) {
+            if (e.keyCode === 39) {
                 this.nextFont(e)
-            } else if (e.keyCode == 37) {
+            } else if (e.keyCode === 37) {
                 this.prevFont(e)
+            }
+
+        })
+
+        document.body.addEventListener('keyup', e => {
+            if (e.keyCode === 16 && this.shiftKeyPressed === true) {
+                this.shiftKeyPressed = false
             }
         })
     }
@@ -167,7 +190,7 @@ class App {
         // update the font index, font name, etc
         this.currentFont.classList.remove('error')
         this.indexEl.textContent = this.fontIndex + 1
-        if (this.fonts.length == 0) {
+        if (this.fonts.length === 0) {
             this.categoryIndicator.classList.add('disabled')
             this.currentFont.value = 'No font found...'
             this.currentFont.disabled = true
