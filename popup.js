@@ -1,6 +1,6 @@
 "use strict";
 
-const DEV = true
+const DEV = false
 
 // insert only once listener.js
 chrome.tabs.executeScript(null, {code: 'window.FontManager'}, function (results) {
@@ -122,7 +122,7 @@ class App {
     bindDOM() {
         this.next.addEventListener('click', this.nextFont.bind(this))
 
-        this.prev.addEventListener('click', e => this.prevFont.bind(this))
+        this.prev.addEventListener('click', this.prevFont.bind(this))
 
         this.filtersForm.addEventListener('change', e => {
 
